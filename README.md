@@ -1,5 +1,7 @@
 # Ether Harvest Token
 
+[![Build Status](https://travis-ci.org/etherharvest/xeh.svg?branch=master)](https://travis-ci.org/etherharvest/xeh)
+
 Ether Harvest Token (or _XEH_) is a token that will allow the distribution of
 profits in the Ether Harvest Platform.
 
