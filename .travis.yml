@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - 9
 before_script:
-  - npm install
   - truffle version
+  - truffle compile
 script:
   - truffle test
-  - solium test
+  - solium -d contracts/
