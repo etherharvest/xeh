@@ -1,0 +1,26 @@
+{
+  "name": "xeh",
+  "version": "1.0.0",
+  "description": "### TODOs",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etherharvest/xeh.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/etherharvest/xeh/issues"
+  },
+  "homepage": "https://github.com/etherharvest/xeh#readme",
+  "dependencies": {
+    "zeppelin-solidity": "1.8.0"
+  }
+}
