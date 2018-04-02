@@ -6,7 +6,8 @@ profits in the Ether Harvest Platform.
 ## Getting Started
 
 In order to be able to test the contracts, `truffle` and `solium` cli
-tools are required. These tools can be downloaded using `npm` that comes with
+tools are required (optionally also you can install Ganache to have a private
+test blockchain). These tools can be downloaded using `npm` that comes with
 `nodejs`.
 
 ### Installing `npm`
@@ -61,14 +62,7 @@ And finally add `npm` to your path:
   echo "export PATH=\"$HOME/.asdf/installs/nodejs/9.10.1/.npm/bin:\$PATH\"" >> ~/.zshrc
   ```
 
-### Installing `truffle` and `solium`
-
-Using `npm`, install `truffle` and `solium`:
-
-```
-npm install -g truffle
-npm install -g solium
-```
+### Installing Ganache
 
 Optionally, you can install `ganache-cli`, a cli tool that simmulates the
 Ethereum blockchain:
