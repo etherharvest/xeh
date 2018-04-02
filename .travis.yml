@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - 9
 before_script:
-  - npm install -g truffle
-  - npm install -g solium
+  - npm install
+  - truffle version
 script:
   - truffle test
   - solium test
