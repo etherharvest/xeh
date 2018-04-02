@@ -3,7 +3,8 @@ node_js:
   - 9
 before_script:
   - truffle version
-  - truffle compile
 script:
+  - truffle compile
+  - truffle migrate
   - truffle test
   - solium -d contracts/
