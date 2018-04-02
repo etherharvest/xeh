@@ -6,7 +6,5 @@ cache:
 before_script:
   - yarn truffle version
 script:
-  - yarn truffle compile
-  - yarn truffle migrate
   - yarn truffle test
   - yarn solium -d contracts/
