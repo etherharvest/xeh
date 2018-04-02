@@ -1,10 +1,12 @@
 language: node_js
 node_js:
   - 9
+cache:
+  yarn: true
 before_script:
-  - truffle version
+  - yarn truffle version
 script:
-  - truffle compile
-  - truffle migrate
-  - truffle test
-  - solium -d contracts/
+  - yarn truffle compile
+  - yarn truffle migrate
+  - yarn truffle test
+  - yarn solium -d contracts/
