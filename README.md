@@ -16,53 +16,14 @@ test blockchain). These tools can be downloaded using `npm` that comes with
 
 If you already have `npm` installed, then skip this section.
 
-For `npm` installation we recommend using `asdf` version manager (v0.4.3 is the
-latest version at the moment of writing this document):
+Using the script `install.sh` found in the project's root folder you can
+install all the dependencies (`npm` included):
 
 ```
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
+./install.sh
 ```
 
-Depending on your OS and shell, run the following:
-
-  * Bash on Linux:
-  ```
-  echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-  echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
-  ```
-  * Bash on MacOS:
-  ```
-  echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bash_profile
-  echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bash_profile
-  ```
-  * Zsh:
-  ```
-  echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.zshrc
-  echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.zshrc
-  ```
-
-In a new shell, install the latest `nodejs` version (at the time of the writing
-is 9.10.0):
-
-```
-asdf install nodejs 9.10.1
-asdf global nodejs 9.10.1
-```
-
-And finally add `npm` to your path:
-
-  * Bash on Linux:
-  ```
-  echo "export PATH=\"$HOME/.asdf/installs/nodejs/9.10.1/.npm/bin:\$PATH\"" >> ~/.bashrc
-  ```
-  * Bash on MacOS:
-  ```
-  echo "export PATH=\"$HOME/.asdf/installs/nodejs/9.10.1/.npm/bin:\$PATH\"" >> ~/.bash_profile
-  ```
-  * Zsh:
-  ```
-  echo "export PATH=\"$HOME/.asdf/installs/nodejs/9.10.1/.npm/bin:\$PATH\"" >> ~/.zshrc
-  ```
+This script only works for `bash` (Linux and MacOS) and `zsh`.
 
 ### Installing Ganache
 
