@@ -53,6 +53,6 @@ the test blockchain and `test` it using `truffle`:
 
 ```
 truffle compile
-truffle migrate
-truffle test
+truffle migrate --network ganachecli
+truffle test --network ganachecli
 ```
