@@ -6,7 +6,7 @@ before_script:
   - npm install -g solium
   - truffle version
 script:
-  - ganache-cli -p 7545 > /dev/null &
+  - ganache-cli > /dev/null &
   - sleep 5
   - truffle compile
   - truffle migrate --network development
