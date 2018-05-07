@@ -1,6 +1,6 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "../ownership/Ownable.sol";
 
 
 /**
@@ -18,11 +18,6 @@ contract Accessable is Ownable {
   event AccessRevoked(address indexed unauthorizedAddress);
 
   /**
-   * @dev The Accessable constructor.
-   */
-  function Accessable() public {}
-
-  /**
    * @dev Throws if is called by an unauthorized account.
    */
   modifier onlyAuthorized() {
@@ -37,7 +32,6 @@ contract Accessable is Ownable {
    */
   function grantAccess(address _address) external onlyOwner {
     require(_address != address(0));
-    require(!acl[_address]);
     emit AccessGranted(_address);
     acl[_address] = true;
   }
@@ -49,7 +43,6 @@ contract Accessable is Ownable {
    */
   function revokeAccess(address _address) external onlyOwner {
     require(_address != address(0));
-    require(acl[_address]);
     emit AccessRevoked(_address);
     delete acl[_address];
   }

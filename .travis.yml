@@ -1,8 +1,14 @@
 language: node_js
 node_js:
-  - 9
+  - 10
 before_script:
+  - npm install -g ganache-cli
+  - npm install -g solium
   - truffle version
 script:
-  - truffle test
+  - ganache-cli -p 7545 > /dev/null &
+  - sleep 5
+  - truffle compile
+  - truffle migrate --network development
+  - truffle test --network development
   - solium -d contracts/
