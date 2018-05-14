@@ -4,4 +4,5 @@ RUN if [ $(id -u node) != $user_id ]; then usermod -u $user_id -g $user_id node;
 RUN mkdir -p /app/xeh
 RUN chown -R node:node /app
 USER node
+ENV PATH="/app/xeh/node_modules/.bin:${PATH}"
 WORKDIR /app/xeh
