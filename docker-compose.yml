@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  truffle-develop:
+    build: .
+    ports:
+      - "9545:9545"
+    volumes:
+      - type: bind
+        source: ./
+        target: /app/xeh
+    command: node_modules/.bin/truffle develop
+    tty: true
+  xeh:
+    depends_on:
+      - truffle-develop
+    build: .
+    command: node_modules/.bin/truffle migrate --network compose --reset
+    volumes:
+      - type: bind
+        source: ./
+        target: /app/xeh
