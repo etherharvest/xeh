@@ -1,4 +1,6 @@
-.*
 *.swp
 node_modules/
 build/
+tags
+tags.temp
+tags.lock
