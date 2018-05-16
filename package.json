@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/etherharvest/xeh#readme",
   "dependencies": {
-    "truffle": "^4.1.8"
+    "truffle": "^4.1.8",
+    "solium": "^1.1.7"
   }
 }

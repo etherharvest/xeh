@@ -1,24 +1,18 @@
+.PHONY: build test coverage
 current_dir := $(shell pwd)
 user_id := $(shell id -u)
+command_migrate := truffle migrate --network dockerCompose --reset
+command_test := truffle test --network dockerCompose
+command_solium := solium -d contracts/
 
-compile:
-	docker run --rm --name xeh -v $(current_dir):/app/xeh -it xeh \
-		truffle compile
-
-build: package.json
-	docker build --rm -t xeh --build-arg user_id=$(user_id) .
-	docker run --rm --name xeh -v $(current_dir):/app/xeh -it xeh \
+build:
+	docker-compose build --build-arg user_id=$(user_id)
+	docker-compose run --rm --name xeh contracts \
 		npm install
 
-tests:
-	docker-compose run --rm --name xeh --service-ports xeh  \
-		/bin/bash -c "truffle migrate --network compose --reset && truffle test --network compose"
-
-coverage:
-	docker-compose run --rm --name xeh --service-ports xeh  \
-		/bin/bash -c "truffle migrate --network compose --reset && solidity-coverage --network compose"
+test:
+	docker-compose run --rm --name xeh --service-ports contracts  \
+		/bin/bash -c "$(command_solium) && $(command_migrate) && $(command_test)"
 
 clean:
-	docker-compose down
-	docker rm xeh
-	docker rmi xeh
+	-docker-compose down --rmi all
