@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  ganache-cli:
+    image: trufflesuite/ganache-cli:v6.1.0
+    ports:
+      - 8545:8545
+  contracts:
+    depends_on:
+      - ganache-cli
+    build: .
+    command: node_modules/.bin/truffle migrate --network dockerCompose --reset
+    volumes:
+      - type: bind
+        source: ./
+        target: /app/xeh
