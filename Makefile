@@ -13,6 +13,7 @@ build:
 test:
 	docker-compose run --rm --name xeh --service-ports contracts  \
 		/bin/bash -c "$(command_solium) && $(command_migrate) && $(command_test)"
+	docker-compose rm --stop --force
 
 clean:
 	-docker-compose down --rmi all
