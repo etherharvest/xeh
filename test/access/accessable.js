@@ -72,8 +72,7 @@ contract("Accessible", (accounts) => {
     const owner = await accessible.owner();
     await accessible.grantAccess(owner, {from: owner});
 
-    const result = await accessible.getAuthorizedValue();
-    const value = result.toNumber();
+    const value = (await accessible.getAuthorizedValue()).toNumber();
     assert.isTrue(value === 42);
   });
 });
