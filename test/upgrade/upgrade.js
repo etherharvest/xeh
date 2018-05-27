@@ -35,13 +35,12 @@ var Storage = artifacts.require("UpgradeabilityStorage");
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
-contract("UpgradeabilityStorage", (accounts) => {
+contract("UpgradeabilityStorage", ([_, owner, authorized, unauthorized]) => {
   let storage;
-  let owner;
 
   beforeEach(async function () {
-    storage = await Storage.new();
-    owner = await storage.owner();
+    storage = await Storage.new({from: owner});
+    await storage.grantAccess(authorized, {from: owner});
   });
 
   describe("version and implementation", function() {
@@ -59,7 +58,7 @@ contract("UpgradeabilityStorage", (accounts) => {
 
       beforeEach(async function() {
         proxied = await Proxied_V0.new();
-        await storage.upgradeTo("0", proxied.address, {from: owner})
+        await storage.upgradeTo("0", proxied.address, {from: authorized});
       });
 
       it("returns the version and the implementation", async function() {
@@ -75,7 +74,7 @@ contract("UpgradeabilityStorage", (accounts) => {
   describe("upgrade", function() {
     beforeEach(async function() {
       proxied = await Proxied_V0.new()
-      await storage.upgradeTo("0", proxied.address, {from: owner})
+      await storage.upgradeTo("0", proxied.address, {from: authorized})
     });
 
     it("assigns implementation", async function() {
@@ -88,7 +87,7 @@ contract("UpgradeabilityStorage", (accounts) => {
 
     it("updates implementation", async function() {
       proxied = await Proxied_V1.new();
-      await storage.upgradeTo("1", proxied.address, {from: owner})
+      await storage.upgradeTo("1", proxied.address, {from: authorized});
 
       const version = await storage.version();
       assert.equal(version, "1");
@@ -98,25 +97,23 @@ contract("UpgradeabilityStorage", (accounts) => {
     });
 
     it("prevents assigning same implementation", async function() {
-      await assertRevert(storage.upgradeTo("0", proxied.address, {from: owner}));
+      await assertRevert(storage.upgradeTo("0", proxied.address, {from: authorized}));
     });
 
     it("prevents assigning an null address", async function() {
-      await assertRevert(storage.upgradeTo("0", ZERO_ADDRESS, {from: owner}));
+      await assertRevert(storage.upgradeTo("0", ZERO_ADDRESS, {from: authorized}));
     });
 
-    it("only owner can upgrade", async function () {
-      const other = accounts[1];
-      assert.isTrue(owner != other);
-
-      await assertRevert(storage.upgradeTo("0", proxied.address, {from: other}));
+    it("only authorized can upgrade", async function () {
+      assert.isTrue(authorized != unauthorized);
+      await assertRevert(storage.upgradeTo("0", proxied.address, {from: unauthorized}));
     });
   });
 
   describe("events", function() {
     it("emits event when the implementation is upgraded", async function () {
       const proxied = await Proxied_V0.new();
-      const tx = await storage.upgradeTo("0", proxied.address, {from: owner});
+      const tx = await storage.upgradeTo("0", proxied.address, {from: authorized});
       const e = await expectEvent.inTransaction(tx, "Upgraded");
 
       assert.equal(e.args.version, "0");
@@ -130,23 +127,23 @@ contract("UpgradeabilityStorage", (accounts) => {
 
 var Proxy = artifacts.require("SomeUpgradeabilityProxy");
 
-contract("UpgradeabilityProxy", (accounts) => {
+contract("UpgradeabilityProxy", ([_, owner, authorized, unauthorized]) => {
   let proxy;
   let proxied_v0;
   let proxied_v1;
 
   beforeEach(async function () {
-    proxy = await Proxy.new();
+    proxy = await Proxy.new({from: owner});
+    await proxy.grantAccess(authorized, {from: owner})
     proxied_v0 = await Proxied_V0.new();
     proxied_v1 = await Proxied_V1.new();
   });
 
   it("fordwards call", async function () {
     const expected = 42;
-    const owner = await proxy.owner();
     const instance = Proxied.at(proxy.address);
 
-    const tx = await proxy.upgradeTo("0", proxied_v0.address, {from: owner});
+    const tx = await proxy.upgradeTo("0", proxied_v0.address, {from: authorized});
     const e = await expectEvent.inTransaction(tx, "Upgraded");
     assert.equal(e.args.version, "0");
     assert.equal(e.args.implementation, proxied_v0.address);
@@ -158,12 +155,11 @@ contract("UpgradeabilityProxy", (accounts) => {
 
   it("upgrades contract keeping state", async function () {
     const expected = 42;
-    const owner = await proxy.owner();
     const instance = Proxied.at(proxy.address);
-    await proxy.upgradeTo("0", proxied_v0.address, {from: owner});
+    await proxy.upgradeTo("0", proxied_v0.address, {from: authorized});
     await instance.setValue(21);
 
-    await proxy.upgradeTo("1", proxied_v1.address, {from: owner});
+    await proxy.upgradeTo("1", proxied_v1.address, {from: authorized});
 
     value = (await instance.getValue()).toNumber();
     assert.equal(value, expected);

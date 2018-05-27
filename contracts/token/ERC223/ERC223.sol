@@ -32,10 +32,10 @@ contract ERC223 is IERC223, ERC20Basic {
    * @dev ERC20 transfer function adapted for ERC223.
    * @param to Receiver address.
    * @param value Amount of tokens to be sent.
-   * @returns Whether the transfer was successful or not.
+   * @return Whether the transfer was successful or not.
    */
   function transfer(address to, uint256 value) public returns (bool) {
-    bytes32 memory empty;
+    bytes32 empty;
     return transfer(to, value, empty);
   }
 
@@ -58,7 +58,7 @@ contract ERC223 is IERC223, ERC20Basic {
       return contractFallback(msg.sender, to, value, data);
     }
 
-    emit Transfer(msg.sender, to, value, data)
+    emit Transfer(msg.sender, to, value, data);
     return true;
   }
 
@@ -76,7 +76,7 @@ contract ERC223 is IERC223, ERC20Basic {
     bytes32 data
   ) private returns (bool) {
     IERC223Receiver receiver = IERC223Receiver(to);
-    return receiver.tokenFallback(from, value, data); // TODO: Fix me
+    return receiver.tokenFallback(msg.sender, from, value, data); // TODO: Fix me
   }
 
   /**

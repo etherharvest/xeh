@@ -32,8 +32,8 @@ contract Accessable is Ownable {
    */
   function grantAccess(address _address) external onlyOwner {
     require(_address != address(0));
-    emit AccessGranted(_address);
     acl[_address] = true;
+    emit AccessGranted(_address);
   }
 
   /**
@@ -43,8 +43,8 @@ contract Accessable is Ownable {
    */
   function revokeAccess(address _address) external onlyOwner {
     require(_address != address(0));
-    emit AccessRevoked(_address);
     delete acl[_address];
+    emit AccessRevoked(_address);
   }
 
   /**

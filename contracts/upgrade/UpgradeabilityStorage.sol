@@ -1,13 +1,13 @@
 pragma solidity ^0.4.23;
 
-import "../ownership/Ownable.sol";
+import "../access/Accessable.sol";
 
 
 /**
  * @title UpgradeabilityStorage
  * @dev This contract represents a storage for the upgrade information.
  */
-contract UpgradeabilityStorage is Ownable {
+contract UpgradeabilityStorage is Accessable {
   // Version name of the current implementation.
   string internal _version;
 
@@ -45,7 +45,7 @@ contract UpgradeabilityStorage is Ownable {
    * @param ver Representing the version name of the upgraded implementation.
    * @param impl Representing the address of the upgraded implementation.
    */
-  function upgradeTo(string ver, address impl) public onlyOwner {
+  function upgradeTo(string ver, address impl) public onlyAuthorized {
     require(address(0) != impl);
     require(_implementation != impl);
     _version = ver;

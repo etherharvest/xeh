@@ -1,4 +1,4 @@
-const expectEvent = require('../helpers/expectEvent.js');
+/*const expectEvent = require('../helpers/expectEvent.js');
 const assertRevert = require('../helpers/assertRevert.js');
 
 //////////////////////
@@ -48,4 +48,4 @@ contract("TokenProxy", ([_, proxyOwner, tokenOwner, anotherAccount]) => {
       });
     });
   });
-});
+});*/

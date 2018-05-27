@@ -7,6 +7,7 @@ const assertRevert = require('../helpers/assertRevert.js');
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 var Accessable = artifacts.require("Accessable");
+var Accessible = artifacts.require("Accessible");
 
 contract("Accessable", (accounts) => {
   let accessable;
@@ -50,29 +51,26 @@ contract("Accessable", (accounts) => {
 
     await assertRevert(accessable.revokeAccess(ZERO_ADDRESS, {from: owner}));
   });
-});
 
-///////////////////////////////////////
-// Mock-up test for Accessable contract
+  describe("Accessable contract", function() {
+    let accessible;
+    const other = accounts[1];
 
-var Accessible = artifacts.require("Accessible");
+    beforeEach(async function() {
+      accessible = await Accessible.new();
+    });
 
-contract("Accessible", (accounts) => {
-  let accessible;
+    it("reverts when unauthorized to call a function", async function () {
+      await assertRevert(accessible.getAuthorizedValue());
+    });
 
-  beforeEach(async function () {
-    accessible = await Accessible.new();
-  });
+    it("call the function when authorized", async function () {
+      const owner = await accessible.owner();
+      await accessible.grantAccess(other, {from: owner});
 
-  it("doesn't show the value to unauthorized addresses", async function () {
-    await assertRevert(accessible.getAuthorizedValue());
-  });
-
-  it("show the value to authorized addresses", async function () {
-    const owner = await accessible.owner();
-    await accessible.grantAccess(owner, {from: owner});
-
-    const value = (await accessible.getAuthorizedValue()).toNumber();
-    assert.isTrue(value === 42);
+      const value =
+        (await accessible.getAuthorizedValue({from: other})).toNumber();
+      assert.isTrue(value === 42);
+    });
   });
 });
