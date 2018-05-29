@@ -5,7 +5,7 @@ const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 ///////////////////////
 // Tests for ERC20Basic
 
-var Basic = artifacts.require("BasicToken");
+var Basic = artifacts.require("ERC20BasicToken");
 
 contract("ERC20Basic", function ([_, owner, alice, bob]) {
   const total = 1000;
@@ -47,7 +47,7 @@ contract("ERC20Basic", function ([_, owner, alice, bob]) {
     });
 
     describe("when the recipient is not the zero address", function () {
-      describe("when the sender doesn't have enough balance", async function () {
+      describe("when the sender doesn't have enough balance", function () {
         it("reverts", async function () {
           await assertRevert(token.transfer(alice, total, {from: bob}));
         });
@@ -81,7 +81,7 @@ contract("ERC20Basic", function ([_, owner, alice, bob]) {
 //////////////////
 // Tests for ERC20
 
-var Standard = artifacts.require("StandardToken");
+var Standard = artifacts.require("ERC20Token");
 
 contract("ERC20", function ([_, owner, alice, bob]) {
   const total = 1000;
@@ -123,7 +123,7 @@ contract("ERC20", function ([_, owner, alice, bob]) {
     });
 
     describe("when the recipient is not the zero address", function () {
-      describe("when the sender doesn't have enough balance", async function () {
+      describe("when the sender doesn't have enough balance", function () {
         it("reverts", async function () {
           await assertRevert(token.transfer(alice, total, {from: bob}));
         });
@@ -237,7 +237,7 @@ contract("ERC20", function ([_, owner, alice, bob]) {
       });
     });
 
-    describe("when the sender does not have enough balance", async function () {
+    describe("when the sender does not have enough balance", function () {
       const amount = 100;
       const owner = alice;
       const spender = bob;

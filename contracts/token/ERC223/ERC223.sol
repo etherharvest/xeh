@@ -8,8 +8,8 @@ import "../../math/SafeMath.sol";
 
 /**
  * @title ERC223 basic implementation.
- * @dev Basic implementation of a ERC223 token backwards compatible with ERC20
- * and using the current architecture.
+ * @dev Basic implementation of a ERC223 token backwards compatible with a
+ * basic ERC20 and using the current architecture.
  */
 contract ERC223 is IERC223, ERC20Basic {
   using SafeMath for uint256;
@@ -35,7 +35,7 @@ contract ERC223 is IERC223, ERC20Basic {
    * @return Whether the transfer was successful or not.
    */
   function transfer(address to, uint256 value) public returns (bool) {
-    bytes32 empty;
+    bytes32 empty = "";
     return transfer(to, value, empty);
   }
 
@@ -50,12 +50,12 @@ contract ERC223 is IERC223, ERC20Basic {
    */
   function transfer(address to, uint256 value, bytes32 data)
       public returns (bool) {
-    if(!super.transfer(to, value)) {
-      revert();
+    if (!super.transfer(to, value)) {
+      return false;
     }
 
-    if (isContract(to)) {
-      return contractFallback(msg.sender, to, value, data);
+    if (isContract(to) && !contractFallback(to, value, data)) {
+      return false;
     }
 
     emit Transfer(msg.sender, to, value, data);
@@ -70,13 +70,12 @@ contract ERC223 is IERC223, ERC20Basic {
    * @return True on success, false on failure.
    */
   function contractFallback(
-    address from,
     address to,
     uint256 value,
     bytes32 data
   ) private returns (bool) {
     IERC223Receiver receiver = IERC223Receiver(to);
-    return receiver.tokenFallback(msg.sender, from, value, data); // TODO: Fix me
+    return receiver.tokenFallback(msg.sender, value, data);
   }
 
   /**

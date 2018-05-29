@@ -3,7 +3,6 @@ node_js:
   - 10
 before_script:
   - npm install -g ganache-cli
-  - npm install -g solium
   - truffle version
 script:
   - ganache-cli > /dev/null &
@@ -11,4 +10,3 @@ script:
   - truffle compile
   - truffle migrate --network development
   - truffle test --network development
-  - solium -d contracts/
