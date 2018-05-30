@@ -1,7 +1,7 @@
 {
   "name": "xeh",
-  "version": "1.0.0",
-  "description": "### TODOs",
+  "version": "0.1.0",
+  "description": "Ether Harvest Token (XEH)",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
