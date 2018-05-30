@@ -56,3 +56,17 @@ truffle compile
 truffle migrate --network development
 truffle test --network development
 ```
+
+### Docker
+
+Make sure you have Docker and Docker Compose installed, you can find
+instruction for Linux, Mac and Windows
+[here](https://docs.docker.com/compose/install/#install-compose).
+
+All the necessary commands to build, run and clean the conatiners are defined
+as targets in the project's Makefile:
+
+- **build**: it's the default command, it builds the docker images and runs
+`npm install`.
+- **test**: runs `solium` and the `truffle` tests against `ganache-cli`.
+- **clean**: removes the containers and images.
